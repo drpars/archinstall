@@ -1,0 +1,35 @@
+1. diskler kontrol et
+
+2. swap file
+#HOOKS : resume eklenecek
+sudo nvim /etc/mkinitcpio.conf
+
+sudo -i
+#resume=UUID=
+findmnt -no UUID -T /swapfile
+#resume_offset=
+filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}'
+
+echo 8:2 > /sys/power/resume
+echo 34816 > /sys/power/resume_offset
+
+#kernel parametresi eklenecek
+sudo nvim /etc/default/grub
+resume=UUID= ......
+resume_offset= ....
+
+sudo mkinitcpio -P
+sudo LC_ALL=C grub-mkconfig -o /boot/grub/grub.conf
+
+3. reboot
+
+4.
+sudo mkinitcpio -P
+sudo LC_ALL=C grub-mkconfig -o /boot/grub/grub.conf
+reboot
+
+5. 
+sudo -i
+/home/drpars/İndirilenler/archinstall/Final/zsh.sh
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
